@@ -1,8 +1,9 @@
 # JetBrains
 .idea
 
-# Database file
+# Huge datafiles
 genes.db
+/static/rbp_encode_eclip.csv.gz
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

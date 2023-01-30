@@ -21,7 +21,11 @@ $(document).ready(function () {
                 className: 'dt-body-right'
             }
         ],
-        buttons: ['csvHtml5']
+        buttons: [{
+            extend: 'csvHtml5',
+            text: 'Download results (CSV)',
+            }
+        ]
     });
 
     $('#search').submit(function (e) {

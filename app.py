@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 import sqlite3
 
 app = Flask(__name__)
@@ -76,6 +76,11 @@ def get_results():
 @app.route('/')
 def search():
     return render_template('search.html', values=data_values)
+
+
+@app.route('/download_all')
+def download_all():
+    return send_from_directory('static', 'rbp_encode_eclip.csv.gz', as_attachment=True)
 
 
 if __name__ == '__main__':
