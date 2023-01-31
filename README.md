@@ -1,6 +1,6 @@
 # RBP-Tar
 
-RBP-Tar is a web-server for the retrieval of experimentally derived binding sites for hundreds of RNA Binding Proteins on the human genome. The web-server is running at https://ncbr.muni.cz/RBP-Tar.
+RBP-Tar is a web server for the retrieval of experimentally derived binding sites for hundreds of RNA Binding Proteins on the human genome. The web-server is running at https://ncbr.muni.cz/RBP-Tar.
 
 ## Own installation
 
