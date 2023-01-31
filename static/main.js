@@ -6,6 +6,20 @@ function reenable() {
 
 $(document).ready(function () {
     $('#submit_spinner').hide();
+
+    $('#example1').on('click', function () {
+        $('#reset').trigger('click');
+        $('#chromosome').val('chr16');
+        $('#start_min').val(31180139);
+        $('#end_max').val(31191605);
+        $('#strand').val('+');
+    });
+
+    $('#example2').on('click', function () {
+        $('#example1').trigger('click');
+        $('#protein_name').val('FUS');
+    });
+
     $('#reset').on('click', function () {
         $('#results').DataTable().clear().draw();
     });
@@ -24,7 +38,7 @@ $(document).ready(function () {
         buttons: [{
             extend: 'csvHtml5',
             text: 'Download results (CSV)',
-            }
+        }
         ]
     });
 
