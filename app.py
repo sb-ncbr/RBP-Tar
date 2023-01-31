@@ -5,26 +5,38 @@ app = Flask(__name__)
 
 
 def get_data_values():
+    def chromosome_key(chromosome: str) -> int:
+        chrtype = chromosome[3:]
+        match chrtype:
+            case 'X':
+                return 98
+            case 'Y':
+                return 89
+            case _:
+                return int(chrtype)
+
+
     connection = sqlite3.connect('genes.db')
     cur = connection.cursor()
 
-    values = {
-        'strand': [''],
-        'chromosome': [''],
-        'protein_name': ['']
-    }
+    values = {}
 
     cur.execute('SELECT DISTINCT strand FROM genes')
-    values['strand'].extend(x[0] for x in cur.fetchall())
+    values['strand'] = [x[0] for x in cur.fetchall()]
 
     cur.execute('SELECT DISTINCT chromosome FROM genes')
-    values['chromosome'].extend(x[0] for x in cur.fetchall())
+    values['chromosome'] = [x[0] for x in cur.fetchall()]
 
     cur.execute('SELECT DISTINCT protein_name FROM genes')
-    values['protein_name'].extend(x[0] for x in cur.fetchall())
+    values['protein_name'] = [x[0] for x in cur.fetchall()]
 
-    for v in values.values():
-        v.sort()
+    values['strand'].sort()
+    values['protein_name'].sort()
+    values['chromosome'].sort(key=chromosome_key)
+
+    values['strand'].insert(0, '')
+    values['protein_name'].insert(0, '')
+    values['chromosome'].insert(0, '')
 
     return values
 
