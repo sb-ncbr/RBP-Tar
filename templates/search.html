@@ -18,15 +18,15 @@
     </div>
     <hr>
     <div class="row mb-3">
-        <div class="col">
+        <div class="col col-12 col-md-auto mt-2">
             <b>Examples: </b>
         </div>
-        <div class="col">
+        <div class="col col-12 col-md-auto mt-2">
             <button id="example1" class="btn btn-primary btn-sm">
                 FUS Gene, All RBPs
             </button>
         </div>
-        <div class="col">
+        <div class="col col-12 col-md-auto mt-2">
             <button id="example2" class="btn btn-primary btn-sm">
                 FUS Gene, self-targeting
             </button>
@@ -35,26 +35,26 @@
 
     <form method="post" id="search" enctype="multipart/form-data" action="{{ url_for('search') }}">
         <div class="row">
-            <div class="col"><label for="start_min">Start min: </label></div>
-            <div class="col"><input id="start_min" name="start_min" class="form-control" type="number" min="0">
+            <div class="col col-md-6 col-12"><label for="start_min">Start min: </label></div>
+            <div class="col col-md-6 col-12"><input id="start_min" name="start_min" class="form-control" type="number" min="0">
             </div>
         </div>
         <div class="row">
-            <div class="col"><label for="start_max">Start max: </label></div>
-            <div class="col"><input id="start_max" name="start_max" class="form-control" type="number" min="0">
+            <div class="col col-md-6 col-12"><label for="start_max">Start max: </label></div>
+            <div class="col col-md-6 col-12"><input id="start_max" name="start_max" class="form-control" type="number" min="0">
             </div>
         </div>
         <div class="row">
-            <div class="col"><label for="end_min">End min: </label></div>
-            <div class="col"><input id="end_min" name="end_min" class="form-control" type="number" min="0"></div>
+            <div class="col col-md-6 col-12"><label for="end_min">End min: </label></div>
+            <div class="col col-md-6 col-12"><input id="end_min" name="end_min" class="form-control" type="number" min="0"></div>
         </div>
         <div class="row">
-            <div class="col"><label for="end_max">End max: </label></div>
-            <div class="col"><input id="end_max" name="end_max" class="form-control" type="number" min="0"></div>
+            <div class="col col-md-6 col-12"><label for="end_max">End max: </label></div>
+            <div class="col col-md-6 col-12"><input id="end_max" name="end_max" class="form-control" type="number" min="0"></div>
         </div>
         <div class="row">
-            <div class="col"><label for="strand">Strand: </label></div>
-            <div class="col"><select class="form-control" id="strand" name="strand">
+            <div class="col col-md-6 col-12"><label for="strand">Strand: </label></div>
+            <div class="col col-md-6 col-12"><select class="form-control" id="strand" name="strand">
                 {% for strand in values['strand'] %}
                 <option>{{ strand }}</option>
                 {% endfor %}
@@ -62,10 +62,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col col-md-6 col-12">
                 <label for="chromosome">Chromosome: </label>
             </div>
-            <div class="col">
+            <div class="col col-md-6 col-12">
                 <select class="form-control" id="chromosome" name="chromosome">
                     {% for chromosome in values['chromosome'] %}
                     <option>{{ chromosome }}</option>
@@ -74,11 +74,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col col-md-6 col-12">
                 <label for="protein_name">Protein name: </label>
 
             </div>
-            <div class="col">
+            <div class="col col-md-6 col-12">
                 <select class="form-control" id="protein_name" name="protein_name">
                     {% for protein_name in values['protein_name'] %}
                     <option>{{ protein_name }}</option>
@@ -86,15 +86,15 @@
                 </select>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col">
+        <div class="row">
+            <div class="col mt-2 col-md-6 col-12">
                 <button id="submit" type="submit" class="btn btn-primary">
                         <span id="submit_spinner" class="spinner-border spinner-border-sm" role="status"
                               aria-hidden="true"></span>
                     Search
                 </button>
             </div>
-            <div class="col">
+            <div class="col mt-2 col-md-6 col-12">
                 <button id="reset" type="reset" class="btn btn-secondary">Reset</button>
             </div>
         </div>
