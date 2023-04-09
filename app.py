@@ -2,7 +2,8 @@ from flask import Flask, render_template, request, jsonify, send_from_directory
 import sqlite3
 
 app = Flask(__name__)
-
+app.config["DB_DRIVER"] = "sqlite3"
+app.config["DB_CONNECTION_STRING"] = "./data/genes.db"
 
 def get_data_values():
     def chromosome_key(chromosome: str) -> int:
@@ -14,11 +15,8 @@ def get_data_values():
                 return 89
             case _:
                 return int(chrtype)
-
-
-    connection = sqlite3.connect('genes.db')
+    connection = sqlite3.connect(app.config["DB_CONNECTION_STRING"])
     cur = connection.cursor()
-
     values = {}
 
     cur.execute('SELECT DISTINCT strand FROM genes')
@@ -47,7 +45,7 @@ data_values = get_data_values()
 @app.route('/get_results')
 def get_results():
     parameters = request.args
-    connection = sqlite3.connect('genes.db')
+    connection = sqlite3.connect(app.config["DB_CONNECTION_STRING"])
     cur = connection.cursor()
 
     conditions = []

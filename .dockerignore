@@ -1,0 +1,13 @@
+.git/
+deployment/
+data/
+
+.dockerignore
+.gitignore
+
+*.csv
+*.db
+*.md
+
+Dockerfile
+LICENSE
