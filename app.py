@@ -2,7 +2,8 @@ from flask import Flask, render_template, request, jsonify, send_from_directory
 import sqlite3
 
 app = Flask(__name__)
-
+app.config["DB_DRIVER"] = "sqlite3"
+app.config["DB_CONNECTION_STRING"] = "./data/genes.db"
 
 def get_data_values():
     def chromosome_key(chromosome: str) -> int:
@@ -14,11 +15,8 @@ def get_data_values():
                 return 89
             case _:
                 return int(chrtype)
-
-
-    connection = sqlite3.connect('genes.db')
+    connection = sqlite3.connect(app.config["DB_CONNECTION_STRING"])
     cur = connection.cursor()
-
     values = {}
 
     cur.execute('SELECT DISTINCT strand FROM genes')
@@ -47,23 +45,24 @@ data_values = get_data_values()
 @app.route('/get_results')
 def get_results():
     parameters = request.args
-    connection = sqlite3.connect('genes.db')
+    connection = sqlite3.connect(app.config["DB_CONNECTION_STRING"])
     cur = connection.cursor()
 
     conditions = []
-    strand = parameters['strand']
+
+    strand = parameters.get("strand", default="")
     if strand:
         conditions.append(f'strand = "{strand}"')
-    protein_name = parameters['protein_name']
+    protein_name = parameters.get("protein_name", default="")
     if protein_name:
         conditions.append(f'protein_name = "{protein_name}"')
-    chromosome = parameters['chromosome']
+    chromosome = parameters.get("chromosome", default="")
     if chromosome:
         conditions.append(f'chromosome = "{chromosome}"')
-    start_min = parameters['start_min']
-    start_max = parameters['start_max']
-    end_min = parameters['end_min']
-    end_max = parameters['end_max']
+    start_min = parameters.get("start_min", default="")
+    start_max = parameters.get("start_max", default="")
+    end_min = parameters.get("end_min", default="")
+    end_max = parameters.get("end_max", default="")
 
     if start_min:
         conditions.append(f'start >= {start_min}')
@@ -96,4 +95,4 @@ def download_all():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

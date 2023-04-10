@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rbp-tar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rbp-tar
+  template:
+    metadata:
+      labels:
+        app: rbp-tar
+    spec:
+      securityContext:                                                          
+        runAsUser: 1000
+      containers:      
+      - name: rbp-tar
+        image: hub.cerit.io/xrosinec/ncbr/rbp-tar:1.0.1
+        command: ["gunicorn"]
+        args: ["-w 3", "-t 60", "-b 0.0.0.0:5000", "app:app"]
+        ports:
+        resources:
+          requests:
+            cpu: 0.1
+            memory: "100Mi"
+          limits:
+            cpu: 0.25
+            memory: "512Mi"
+        volumeMounts:
+        - mountPath: /home/app/data
+          name: rbp-tar-pvc
+      volumes:
+      - name: rbp-tar-pvc
+        persistentVolumeClaim:
+          claimName: rbp-tar-pvc
