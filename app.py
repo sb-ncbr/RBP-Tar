@@ -53,7 +53,7 @@ def get_results():
     strand = parameters.get("strand", default="")
     if strand:
         conditions.append(f'strand = "{strand}"')
-    protein_name = parameters.get("$1")
+    protein_name = parameters.get("protein_name", default="")
     if protein_name:
         conditions.append(f'protein_name = "{protein_name}"')
     chromosome = parameters.get("chromosome", default="")
