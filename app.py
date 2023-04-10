@@ -49,19 +49,20 @@ def get_results():
     cur = connection.cursor()
 
     conditions = []
-    strand = parameters['strand']
+
+    strand = parameters.get("strand", default="")
     if strand:
         conditions.append(f'strand = "{strand}"')
-    protein_name = parameters['protein_name']
+    protein_name = parameters.get("$1")
     if protein_name:
         conditions.append(f'protein_name = "{protein_name}"')
-    chromosome = parameters['chromosome']
+    chromosome = parameters.get("chromosome", default="")
     if chromosome:
         conditions.append(f'chromosome = "{chromosome}"')
-    start_min = parameters['start_min']
-    start_max = parameters['start_max']
-    end_min = parameters['end_min']
-    end_max = parameters['end_max']
+    start_min = parameters.get("start_min", default="")
+    start_max = parameters.get("start_max", default="")
+    end_min = parameters.get("end_min", default="")
+    end_max = parameters.get("end_max", default="")
 
     if start_min:
         conditions.append(f'start >= {start_min}')
@@ -94,4 +95,4 @@ def download_all():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
