@@ -1,12 +1,12 @@
 # RBP-Tar
 
-RBP-Tar is a web server for the retrieval of experimentally derived binding sites for hundreds of RNA Binding Proteins on the human genome. The web-server is running at https://ncbr.muni.cz/RBP-Tar.
+RBP-Tar is a web server for the retrieval of experimentally derived binding sites for hundreds of RNA Binding Proteins on the human genome. The web-server is running at https://rbp-tar.biodata.ceitec.cz.
 
 ## Own installation
 
 ### Requirements
 
-RBP-Tar was tested on Ubuntu 22.04 with Python 3.10, Flask 2.0.1, and SQlite 3.37.
+RBP-Tar was tested on Ubuntu 24.04 with Python 3.12, Flask 3.0.2, and SQlite 3.45.
 
 ### Setup
 
