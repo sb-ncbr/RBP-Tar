@@ -23,7 +23,7 @@ def init_db(datafile: str):
 
     print('Inserting data')
     cur.executemany(
-        'INSERT INTO genes(chromosome, start, end, strand, protein_name, sequence) VALUES (?, ?, ?, ?, ?, ?)',
+        'INSERT INTO genes(chromosome, start, end, strand, pValue, protein_name, sequence) VALUES (?, ?, ?, ?, ?, ?, ?)',
         data)
 
     connection.commit()

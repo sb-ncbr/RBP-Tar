@@ -16,19 +16,19 @@ def get_data_values():
                 return int(chrtype)
 
 
-    connection = sqlite3.connect('genes.db')
-    cur = connection.cursor()
+    with sqlite3.connect('genes.db') as connection:
+        cur = connection.cursor()
 
-    values = {}
+        values = {}
 
-    cur.execute('SELECT DISTINCT strand FROM genes')
-    values['strand'] = [x[0] for x in cur.fetchall()]
+        cur.execute('SELECT DISTINCT strand FROM genes')
+        values['strand'] = [x[0] for x in cur.fetchall()]
 
-    cur.execute('SELECT DISTINCT chromosome FROM genes')
-    values['chromosome'] = [x[0] for x in cur.fetchall()]
+        cur.execute('SELECT DISTINCT chromosome FROM genes')
+        values['chromosome'] = [x[0] for x in cur.fetchall()]
 
-    cur.execute('SELECT DISTINCT protein_name FROM genes')
-    values['protein_name'] = [x[0] for x in cur.fetchall()]
+        cur.execute('SELECT DISTINCT protein_name FROM genes')
+        values['protein_name'] = [x[0] for x in cur.fetchall()]
 
     values['strand'].sort()
     values['protein_name'].sort()
@@ -46,43 +46,64 @@ data_values = get_data_values()
 
 @app.route('/get_results')
 def get_results():
-    parameters = request.args
-    connection = sqlite3.connect('genes.db')
-    cur = connection.cursor()
+    strand = request.args['strand']
+    protein_name = request.args['protein_name']
+    chromosome = request.args['chromosome']
+    start_min = request.args['start_min']
+    start_max = request.args['start_max']
+    end_min = request.args['end_min']
+    end_max = request.args['end_max']
+    pvalue_min = request.args['pvalue_min']
+    pvalue_max = request.args['pvalue_max']
 
     conditions = []
-    strand = parameters['strand']
+    params = []
+
     if strand:
-        conditions.append(f'strand = "{strand}"')
-    protein_name = parameters['protein_name']
+        conditions.append('strand = ?')
+        params.append(strand)
+
     if protein_name:
-        conditions.append(f'protein_name = "{protein_name}"')
-    chromosome = parameters['chromosome']
+        conditions.append('protein_name = ?')
+        params.append(protein_name)
+
     if chromosome:
-        conditions.append(f'chromosome = "{chromosome}"')
-    start_min = parameters['start_min']
-    start_max = parameters['start_max']
-    end_min = parameters['end_min']
-    end_max = parameters['end_max']
+        conditions.append('chromosome = ?')
+        params.append(chromosome)
 
     if start_min:
-        conditions.append(f'start >= {start_min}')
+        conditions.append('start >= ?')
+        params.append(start_min)
+
     if start_max:
-        conditions.append(f'start <= {start_max}')
+        conditions.append('start <= ?')
+        params.append(start_max)
+
     if end_min:
-        conditions.append(f'end >= {end_min}')
+        conditions.append('end >= ?')
+        params.append(end_min)
+
     if end_max:
-        conditions.append(f'end <= {end_max}')
+        conditions.append('end <= ?')
+        params.append(end_max)
+
+    if pvalue_min:
+        conditions.append('pValue >= ?')
+        params.append(pvalue_min)
+
+    if pvalue_max:
+        conditions.append('pValue <= ?')
+        params.append(pvalue_max)
 
     cond = ' AND '.join(conditions)
-
     where = 'WHERE' if cond else ''
-
     sql_statement = f'SELECT * FROM genes {where} {cond} LIMIT 10000'
-    cur.execute(sql_statement)
 
-    data = cur.fetchall()
-    return jsonify({'data': [list(item) for item in data]})
+    with sqlite3.connect('genes.db') as connection:
+        cur = connection.cursor()
+        cur.execute(sql_statement, params)
+        data = cur.fetchall()
+        return jsonify({'data': [list(item) for item in data]})
 
 
 @app.route('/')

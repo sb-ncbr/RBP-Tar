@@ -27,19 +27,33 @@ $(document).ready(function () {
     let table = $('#results').DataTable({
         dom: 'frtipB',
         searching: false,
+        AutoWidth: false,
         scrollX: true,
         scrollY: true,
         columnDefs: [
             {
                 targets: [1, 2],
                 className: 'dt-body-right'
+            },
+            {
+                targets: [3],
+                className: 'dt-body-right',
+                render: function (data, type, row) {
+                    if (typeof data === 'number') {
+                        return (type === 'display' || type === 'filter') ? data.toFixed(2) : data;
+                    }
+                    return data;
+                }
             }
         ],
         buttons: [{
             extend: 'csvHtml5',
             text: 'Download results (CSV)',
         }
-        ]
+        ],
+        headerCallback: function (thead, data, start, end, display) {
+            $(thead).find('th').css('white-space', 'nowrap');
+        }
     });
 
     $('#search').submit(function (e) {
